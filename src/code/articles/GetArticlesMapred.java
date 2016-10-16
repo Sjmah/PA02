@@ -1,8 +1,10 @@
 package code.articles;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.File;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.apache.hadoop.io.LongWritable;
@@ -47,22 +49,37 @@ public class GetArticlesMapred {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+
 		// Java file object for the location of the wikipedia dump file
 		File inputFile = new File(args[0]);
-
 		File outputFile = new File(args[1]);
-		if (!outputFile.exists()) {
-			try {
+		File people = new File("people.txt");
+		Set<String> peopleNames = createPeopleSet();
+
+
+		// If the output file does not already exist, create it. Otherwise delete whatever exists and create it
+		try {
+			if(!outputFile.createNewFile()) {
+				outputFile.delete();
 				outputFile.createNewFile();
-			} catch (IOException e) {
-				System.out.println("IOException was caught");
 			}
-
+		} catch (IOException e) {
+			System.out.println("IOException was caught");
 		}
-
 
 		// TODO: you should implement the Job Configuration and Job call
 		// here
+	}
+
+	private static Set<String> createPeopleSet() {
+		Set<String> peopleNames = new HashSet<String>();
+		Scanner peopleScanner = new Scanner("people.txt");
+
+		// Go through the people.txt file and add each name to this hashset
+		while (peopleScanner.hasNextLine()){
+			peopleNames.add(peopleScanner.nextLine());
+		}
+		return peopleNames;
 	}
 }
