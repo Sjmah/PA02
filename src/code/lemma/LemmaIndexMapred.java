@@ -32,7 +32,8 @@ public class LemmaIndexMapred {
 			String[] stopWords = {"and", "nor", "by", "the", "in", "around", "to"};
 
 			// String representing regex for special characters
-			String regexSpecialChars = "\\,|\\-|\\||\\.";
+			String regexSpecialChars = "\\,|\\||\\.|\\!|\\?|\\(|\\)|\\;|\\{|\\}|\\[|\\]|\\:|\\/|\\'";
+			String regexSuperSecialChars = "\\-";
 
 			// Generate a regex String containing all the stop words given an input array
 			String regexStopWords = stopWords[0] + "|";
@@ -50,6 +51,7 @@ public class LemmaIndexMapred {
 			// Remove stop words and special characters defined above
 			body = body.replaceAll(regexStopWords, "\b");
 			body = body.replaceAll(regexSpecialChars, "");
+			body.replaceAll(regexSuperSecialChars, " ");
 
 		}
 	}
