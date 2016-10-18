@@ -24,15 +24,18 @@ public class LemmaIndexMapred {
 
 			// gets the raw xml and stores it in a string
 			String text = page.getContent();
+
 			// Gets the index of the where the opening and closing body tags are
 			int openBody = text.indexOf("<body>");
 			int closeBody = text.indexOf("</body>");
 
-			//TODO: Expand this list to be an array of all stop words
 			String[] stopWords = {"and", "nor", "by", "the", "in", "around", "to"};
-			String regexStopWords = stopWords[0] + "|";
-			String regexSpecialChars = "\\,|\\-|\\||\\.|";
 
+			// String representing regex for special characters
+			String regexSpecialChars = "\\,|\\-|\\||\\.";
+
+			// Generate a regex String containing all the stop words given an input array
+			String regexStopWords = stopWords[0] + "|";
 			for (int i = 1; i < stopWords.length; i++) {
 				if (i != stopWords.length-1) {
 					regexStopWords += stopWords[i] + "|";
@@ -41,10 +44,10 @@ public class LemmaIndexMapred {
 				}
 			}
 
-			// gets all the text in between the body tags including any tags
+			// Get all the text in between <body> </body> --> This is just the xml in between the body
 			String body = text.substring(openBody+6, closeBody);
 
-			// remove all stop words and remove all special punctuation
+			// Remove stop words and special characters defined above
 			body = body.replaceAll(regexStopWords, "\b");
 			body = body.replaceAll(regexSpecialChars, "");
 
