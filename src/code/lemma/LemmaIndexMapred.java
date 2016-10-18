@@ -53,6 +53,8 @@ public class LemmaIndexMapred {
 			body = body.replaceAll(regexSpecialChars, "");
 			body.replaceAll(regexSuperSecialChars, " ");
 
+			// TODO: Remove bold, italic and underline xml tags from body
+
 		}
 	}
 }
