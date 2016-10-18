@@ -3,9 +3,7 @@ package code.articles;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.File;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 import edu.umd.cloud9.collection.wikipedia.WikipediaPageInputFormat;
 import org.apache.hadoop.fs.Path;
@@ -40,12 +38,22 @@ public class GetArticlesMapred {
 	//@formatter:on
 	public static class GetArticlesMapper extends Mapper<LongWritable, WikipediaPage, Text, Text> {
 		public static Set<String> peopleArticlesTitles = new HashSet<String>();
+		public static Map<LongWritable, WikipediaPage> articles = new HashMap<LongWritable, WikipediaPage>();
 
 		@Override
 		protected void setup(Mapper<LongWritable, WikipediaPage, Text, Text>.Context context)
 				throws IOException, InterruptedException {
 			// TODO: You should implement people articles load from
 			// DistributedCache here
+
+			Set<String> peopleNames = new HashSet<String>();
+			Scanner peopleScanner = new Scanner("Resources/people.txt");
+
+			// Go through the people.txt file and add each name to this hashset
+			while (peopleScanner.hasNextLine()){
+				peopleNames.add(peopleScanner.nextLine());
+			}
+
 			super.setup(context);
 		}
 
@@ -53,6 +61,11 @@ public class GetArticlesMapred {
 		public void map(LongWritable offset, WikipediaPage inputPage, Context context)
 				throws IOException, InterruptedException {
 			// TODO: You should implement getting article mapper here
+
+			if (peopleArticlesTitles.contains(inputPage.getTitle())) {
+				Text articleXML = new Text(inputPage.getRawXML());
+				context.write(new Text(), articleXML);
+			}
 		}
 	}
 
@@ -85,6 +98,7 @@ public class GetArticlesMapred {
 		Job job = Job.getInstance(conf, "get articles");
 
 		job.setJarByClass(GetArticlesMapred.class);
+		job.setInputFormatClass(util.WikipediaPageInputFormat.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 

@@ -74,6 +74,7 @@
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-core:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-yarn-common:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.3.0" level="project" />
-    <orderEntry type="library" name="Maven: edu.umd:cloud9:1.4.9" level="project" />
+    <orderEntry type="library" name="Maven: edu.umd:cloud9:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: info.bliki.wiki:bliki-core:3.0.19" level="project" />
   </component>
 </module>

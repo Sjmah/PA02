@@ -9,6 +9,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import util.StringIntegerList;
 import edu.umd.cloud9.collection.wikipedia.WikipediaPage;
 
+import code.lemma.Tokenizer;
+
 /**
  * 
  *
